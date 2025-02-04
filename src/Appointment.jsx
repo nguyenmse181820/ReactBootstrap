@@ -52,14 +52,6 @@ function Appointment() {
   const validate = (a) => {
     return a.info.fullName &&
       a.info.dob &&
-      a.info.gender &&
-      a.info.phone &&
-      a.info.relationship &&
-      a.info.province &&
-      a.info.district &&
-      a.info.ward &&
-      a.info.address &&
-      a.info.desiredDate &&
       a.selectedVaccines.length > 0;
   };
 
@@ -78,7 +70,7 @@ function Appointment() {
   }
 
   const handleFormSubmit = () => {
-    if (patients.every(validatePatient)) {
+    if (patients.every(validate)) {
       toast.success('Đăng ký thành công!');
     } else {
       toast.error('Vui lòng nhập đủ các thông tin cần thiết và chọn ít nhất 1 vắc xin!');
