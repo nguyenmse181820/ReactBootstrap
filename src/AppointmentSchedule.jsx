@@ -11,7 +11,6 @@ import {
 } from 'react-bootstrap';
 import InformationForm from './InformationForm';
 import { Toaster, toast } from 'sonner';
-import SummaryCard from './SummaryCard';
 import VaccineSelector from './VaccineSelector';
 
 const AppointmentSchedule = () => {
@@ -30,7 +29,7 @@ const AppointmentSchedule = () => {
   }, []);
 
   const handleFormSubmit = () => {
-    if (!validateAppointment(currentAppointment)) {
+    if (!validate(currentAppointment)) {
       toast.error('Vui lòng điền đầy đủ thông tin và chọn ít nhất một vắc xin');
       return;
     }
@@ -46,10 +45,11 @@ const AppointmentSchedule = () => {
     toast.success(currentAppointment.id ? 'Cập nhật thành công!' : 'Thêm lịch hẹn thành công!');
   };
 
-  const validateAppointment = (appointment) => {
-    return appointment.info.fullName &&
-      appointment.info.dob &&
-      appointment.selectedVaccines.length > 0;
+  const validate = (a) => {
+    return a.info.fullName &&
+      a.info.dob &&
+      a.info.gender &&
+      a.selectedVaccines.length > 0;
   };
 
   const handleDelete = () => {
@@ -155,7 +155,6 @@ const AppointmentSchedule = () => {
               ...prev,
               info: { ...prev.info, ...info }
             }))}
-            showStatus
           />
           
           <h4 className="mt-4">CHỌN VẮC XIN</h4>

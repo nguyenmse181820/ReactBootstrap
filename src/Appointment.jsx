@@ -49,17 +49,23 @@ function Appointment() {
     })
   };
 
-  const validatePatient = (patient) => {
-    return patient.info.fullName &&
-      patient.info.dob &&
-      patient.info.gender &&
-      patient.info.phone &&
-      patient.selectedVaccines.length > 0;
+  const validate = (a) => {
+    return a.info.fullName &&
+      a.info.dob &&
+      a.info.gender &&
+      a.info.phone &&
+      a.info.relationship &&
+      a.info.province &&
+      a.info.district &&
+      a.info.ward &&
+      a.info.address &&
+      a.info.desiredDate &&
+      a.selectedVaccines.length > 0;
   };
 
   const addPatient = () => {
     const currentPatient = patients[currentPatientIndex];
-    if (!validatePatient(currentPatient)) {
+    if (!validate(currentPatient)) {
       toast.error('Vui lòng điền đầy đủ thông tin người được tiêm hiện tại.');
       return;
     }

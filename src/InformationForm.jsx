@@ -29,7 +29,7 @@ const InformationForm = ({ patientInfo, onInfoChange }) => {
                     <Form.Group as={Col} md={6}>
                         <Form.Label><strong>Mối quan hệ</strong></Form.Label>
                         <Form.Select
-                            required
+                            required={true}
                             value={patientInfo.relationship || ''}
                             onChange={(e) => handleChange('relationship', e.target.value)}
                         >
