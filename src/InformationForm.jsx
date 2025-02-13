@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import vi from 'date-fns/locale/vi';
+import styles from './custom.module.css';
 
 const InformationForm = ({ patientInfo, onInfoChange }) => {
+    const [desiredDate, setDesiredDate] = useState(patientInfo.desiredDate || null);
+    const [dateError, setDateError] = useState("");
+
     const handleChange = (field, value) => {
         onInfoChange({
             ...patientInfo,
@@ -12,9 +16,21 @@ const InformationForm = ({ patientInfo, onInfoChange }) => {
         });
     };
 
+    const handleDateChange = (date) => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (date > today) {
+            setDateError("");
+            setDesiredDate(date);
+            onInfoChange({ ...patientInfo, desiredDate: date });
+        } else {
+            setDateError("Ngày mong muốn tiêm phải sau ngày hôm nay.");
+        }
+    };
+
     return (
         <Container className='mb-3'>
-            <h4>THÔNG TIN NGƯỜI ĐƯỢC TIÊM</h4>
+            <h4>THÔNG TIN NGƯỞI ĐƯỢC TIÊM</h4>
             <Form>
                 <Row>
                     <Form.Group as={Col} md={6}>
@@ -29,7 +45,7 @@ const InformationForm = ({ patientInfo, onInfoChange }) => {
                     <Form.Group as={Col} md={6}>
                         <Form.Label><strong>Mối quan hệ</strong></Form.Label>
                         <Form.Select
-                            required={true}
+                            required
                             value={patientInfo.relationship || ''}
                             onChange={(e) => handleChange('relationship', e.target.value)}
                         >
@@ -60,7 +76,7 @@ const InformationForm = ({ patientInfo, onInfoChange }) => {
                                 showMonthDropdown
                                 showYearDropdown
                                 dropdownMode="select"
-                                wrapperStyle={{ display: "block" }}
+                                wrapperClassName={styles.datepickerInput}
                             />
                         </div>
                     </Form.Group>
@@ -164,8 +180,8 @@ const InformationForm = ({ patientInfo, onInfoChange }) => {
                         <div>
                             <DatePicker
                                 required
-                                selected={patientInfo.desiredDate ? new Date(patientInfo.desiredDate) : null}
-                                onChange={(date) => handleChange('desiredDate', date)}
+                                selected={desiredDate}
+                                onChange={handleDateChange}
                                 dateFormat="dd/MM/yyyy"
                                 locale={vi}
                                 placeholderText="Ngày mong muốn tiêm"
@@ -173,7 +189,9 @@ const InformationForm = ({ patientInfo, onInfoChange }) => {
                                 showMonthDropdown
                                 showYearDropdown
                                 dropdownMode="select"
+                                wrapperClassName={styles.datepickerInput}
                             />
+                            {dateError && <small className="text-danger">{dateError}</small>}
                         </div>
                     </Form.Group>
                 </Row>

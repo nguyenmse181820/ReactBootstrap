@@ -51,7 +51,6 @@ function Appointment() {
 
   const validate = (a) => {
     return a.info.fullName &&
-      a.info.dob &&
       a.selectedVaccines.length > 0;
   };
 
@@ -97,7 +96,7 @@ function Appointment() {
 
   return (
     <Container fluid>
-      <Toaster position="bottom-right" />
+      <Toaster position="top-right" />
       <Row>
         <h2 className="text-center my-5">ĐĂNG KÝ MŨI TIÊM</h2>
       </Row>
